@@ -10,6 +10,7 @@
 
 ### 1. 요구사항 분석
 
+<img width="1223" height="854" alt="ERD 작성_요구사항 분석" src="https://github.com/user-attachments/assets/fbf32cd0-bc10-47b1-9d1b-3a0d7c8c8ad4" />
 
 ### 2. 개체 정의
 
@@ -67,4 +68,7 @@
 - 리뷰에 등록될 사진 - 리뷰 1:N 사진
 - 문의에 등록될 사진 - 문의 1:N 사진
 
+
 ### 5. ERD 작성
+
+<img width="1780" height="802" alt="UMC 9th Mission01 (2)" src="https://github.com/user-attachments/assets/97778a9e-2640-465a-b303-ab386bcd086f" />

@@ -71,4 +71,4 @@
 
 ### 5. ERD 작성
 
-<img width="1780" height="802" alt="UMC 9th Mission01 (2)" src="https://github.com/user-attachments/assets/97778a9e-2640-465a-b303-ab386bcd086f" />
+<img width="1780" height="782" alt="UMC 9th Mission01" src="https://github.com/user-attachments/assets/70cbc1b4-9e6e-41b5-91f0-780a9054ca38" />

@@ -1,0 +1,199 @@
+### **DB 설계**
+
+- **모델**: 관계형 데이터베이스 모델을 기반으로 설계
+- **핵심 엔티티(Entity)**:
+    1. **Users**: 서비스에 가입한 사용자 정보
+    2. **Regions**: 가게가 위치한 지역 정보
+    3. **Stores**: 미션이 부여되는 가게 정보
+    4. **Missions**: 사용자가 수행할 미션 정보
+    5. **User_Missions**: 사용자가 어떤 미션을 수행하고 있는지, 완료했는지 상태를 기록하는 테이블 (매핑 테이블)
+    6. **Reviews**: 사용자가 완료한 미션에 대해 작성한 리뷰
+    7. **Food_Categories & User_Food_Preferences**: 사용자의 음식 선호도를 관리하기 위한 테이블
+
+### **1. users**
+
+**설명**: 서비스 사용자의 계정 및 프로필 정보. 
+
+|  컬럼명  |  데이터 타입  |  제약 조건  |  설명  |
+| --- | --- | --- | --- |
+|  id  |  BIGINT  |  PK, AI  |  사용자 고유 식별자  |
+|  email  |  VARCHAR(255)  |  UNIQUE, NOT NULL  |  로그인 이메일  |
+|  password  |  VARCHAR(255)  |  NOT NULL  |  해시 처리된 비밀번호  |
+|  nickname  |  VARCHAR(50)  |  UNIQUE, NOT NULL  |  닉네임  |
+|  gender  |  VARCHAR(10)  |   |  성별 ('MALE', 'FEMALE')  |
+|  birth_date  |  DATE  |   |  생년월일  |
+|  address_main  |  VARCHAR(255)  |   |  주소  |
+|  total_points  |  INT  |  NOT NULL, DEFAULT 0  |  보유 총 포인트  |
+|  status  |  VARCHAR(15)  |  NOT NULL, DEFAULT 'ACTIVE'  |  계정 상태 ('ACTIVE', 'INACTIVE')  |
+|  created_at  |  DATETIME(6)  |  NOT NULL  |  가입일 (밀리초 포함)  |
+|  updated_at  |  DATETIME(6)  |  NOT NULL  |  마지막 정보 수정일 (밀리초 포함)  |
+|  deleted_at  |  DATETIME(6)  |   |  비활성화(탈퇴) 처리일 (밀리초 포함)  |
+
+### **2. food_categories**
+
+**설명**: 음식 종류 (한식, 일식 등)
+
+|  컬럼명  |  데이터 타입  |  제약 조건  |  설명  |
+| --- | --- | --- | --- |
+|  id  |  BIGINT  |  PK, AI  |  카테고리 고유 식별자  |
+|  name  |  VARCHAR(50)  |  UNIQUE, NOT NULL  |  카테고리명  |
+|  created_at  |  DATETIME(6)  |  NOT NULL  |  생성일  |
+|  updated_at  |  DATETIME(6)  |  NOT NULL  |  수정일  |
+
+### **3. user_food_preferences**
+
+**설명**: users와 food_categories의 N:M 관계를 해소하기 위한 매핑 테이블.
+
+|  컬럼명  |  데이터 타입  |  제약 조건  |  설명  |
+| --- | --- | --- | --- |
+|  id  |  BIGINT  |  PK, AI  |  매핑 고유 식별자  |
+|  user_id  |  BIGINT  |  FK  |  사용자 ID (users.id)  |
+|  food_category_id  |  BIGINT  |  FK  |  카테고리 ID (food_categories.id)  |
+|  created_at  |  DATETIME(6)  |  NOT NULL  |  선호 등록일  |
+| update_at | DATETIME(6) | NOT NULL | 선호 수정일 |
+
+### **4. regions**
+
+**설명**: 가게가 위치한 지역 정보.
+
+|  컬럼명  |  데이터 타입  |  제약 조건  |  설명  |
+| --- | --- | --- | --- |
+|  id  |  BIGINT  |  PK, AI  |  지역 고유 식별자  |
+|  name  |  VARCHAR(100)  |  UNIQUE, NOT NULL  |  지역명  |
+|  created_at  |  DATETIME(6)  |  NOT NULL  |  생성일  |
+|  updated_at  |  DATETIME(6)  |  NOT NULL  |  수정일  |
+
+### **5. stores**
+
+**설명**: 미션이 부여되는 가게 정보.
+
+|  컬럼명  |  데이터 타입  |  제약 조건  |  설명  |
+| --- | --- | --- | --- |
+|  id  |  BIGINT  |  PK, AI  |  가게 고유 식별자  |
+|  name  |  VARCHAR(100)  |  NOT NULL  |  가게 이름  |
+|  address  |  VARCHAR(255)  |  NOT NULL  |  가게 상세 주소  |
+|  region_id  |  BIGINT  |  FK, NOT NULL  |  소속 지역 ID (regions.id)  |
+|  created_at  |  DATETIME(6)  |  NOT NULL  |  생성일  |
+|  updated_at  |  DATETIME(6)  |  NOT NULL  |  수정일  |
+
+### **6. missions**
+
+**설명**: 각 가게에 할당되는 미션의 원본 데이터.
+
+|  컬럼명  |  데이터 타입  |  제약 조건  |  설명  |
+| --- | --- | --- | --- |
+|  id  |  BIGINT  |  PK, AI  |  미션 고유 식별자  |
+|  store_id  |  BIGINT  |  FK, NOT NULL  |  소속 가게 ID (stores.id)  |
+|  title  |  VARCHAR(255)  |  NOT NULL  |  미션 제목  |
+|  description  |  TEXT  |   |  미션 상세 설명  |
+|  reward_points  |  INT  |  NOT NULL  |  보상 포인트  |
+|  is_active  |  BOOLEAN  |  NOT NULL, DEFAULT true  |  미션 활성화 여부  |
+|  created_at  |  DATETIME(6)  |  NOT NULL  |  생성일  |
+|  updated_at  |  DATETIME(6)  |  NOT NULL  |  수정일  |
+
+### **7. user_missions**
+
+**설명**: users와 missions의 N:M 관계를 해소하고, 사용자의 미션 수행 상태를 기록하는 매핑 테이블.
+
+|  컬럼명  |  데이터 타입  |  제약 조건  |  설명  |
+| --- | --- | --- | --- |
+|  id  |  BIGINT  |  PK, AI  |  수행 기록 고유 식별자  |
+|  user_id  |  BIGINT  |  FK, NOT NULL  |  사용자 ID (users.id)  |
+|  mission_id  |  BIGINT  |  FK, NOT NULL  |  미션 ID (missions.id)  |
+|  status  |  VARCHAR(20)  |  NOT NULL  |  미션 상태 ('IN_PROGRESS', 'COMPLETED')  |
+|  created_at  |  DATETIME(6)  |  NOT NULL  |  미션 시작일  |
+|  updated_at  |  DATETIME(6)  |  NOT NULL  |  상태 변경일 (미션 완료일)  |
+
+### **8. reviews**
+
+**설명**: 완료된 미션(user_missions)에 대해 작성된 리뷰.
+
+|  컬럼명  |  데이터 타입  |  제약 조건  |  설명  |
+| --- | --- | --- | --- |
+|  id  |  BIGINT  |  PK, AI  |  리뷰 고유 식별자  |
+|  user_mission_id  |  BIGINT  |  UNIQUE, FK, NOT NULL  |  완료된 미션 ID (user_missions.id)  |
+|  user_id  |  BIGINT  |  FK, NOT NULL  |  작성자 ID (users.id)  |
+|  store_id  |  BIGINT  |  FK, NOT NULL  |  가게 ID (stores.id)  |
+|  rating  |  INT  |  NOT NULL  |  별점 (1~5)  |
+|  content  |  TEXT  |  NOT NULL  |  리뷰 내용  |
+|  created_at  |  DATETIME(6)  |  NOT NULL  |  작성일  |
+|  updated_at  |  DATETIME(6)  |  NOT NULL  |  수정일  |
+1. **users와 missions의 관계 → N:M (다대다)**
+
+논리적 해석:
+
+→ 한 명의 사용자는 여러 개의 미션을 수행할 수 있다.
+
+    하나의 미션(예: "12,000원 이상 식사")은 여러 사용자에 의해 수행될 수 있다.
+
+물리적 설계:
+
+→ N:M 관계는 관계형 데이터베이스에서 직접 표현할 수 없으므로, 중간에 매핑 테이블인 user_missions를      둔다.
+
+→ users와 user_missions는 1:N 관계가 된다. (한 명의 유저는 여러 미션 수행 기록을 가짐)
+
+→ missions와 user_missions는 1:N 관계가 된다. (하나의 미션은 여러 유저에 의해 수행됨)
+
+    따라서 user_missions 테이블은 user_id와 mission_id를 외래 키(FK)로 가진다.
+
+1. **users와 food_categories의 관계 → N:M (다대다)**
+
+논리적 해석:
+
+→ 한 명의 사용자는 여러 음식 카테고리(한식, 중식 등)를 선호할 수 있다.
+
+→ 하나의 음식 카테고리는 여러 사용자에게 선택될 수 있다.
+
+물리적 설계:
+
+→ 위와 동일하게 N:M 관계이므로, 매핑 테이블인 user_food_preferences를 생성한다.
+
+→ user_food_preferences는 user_id와 food_category_id를 FK로 가져와 두 테이블을 연결한다.
+
+1. **regions와 stores의 관계 → 1:N (일대다)**
+
+논리적 해석:
+
+→ 하나의 지역("안암동")에는 여러 가게가 포함될 수 있다.
+
+→ 하나의 가게는 오직 하나의 지역에만 속한다.
+
+물리적 설계:
+
+→ 1:N 관계에서는 N쪽이 1쪽의 PK를 FK로 가진다.
+
+     따라서 stores 테이블이 regions 테이블의 PK인 id를 region_id라는 이름의 FK로 가진다.
+
+1. **stores와 missions의 관계 → 1:N (일대다)**
+
+논리적 해석:
+
+→ 하나의 가게는 여러 종류의 미션(예: 금액 미션, 메뉴 미션)을 가질 수 있다.
+
+→ 하나의 미션은 특정 가게 하나에만 종속된다.
+
+물리적 설계:
+
+→ missions 테이블(N쪽)이 stores 테이블(1쪽)의 PK인 id를 store_id라는 FK로 가진다.
+
+1. **user_missions와 reviews의 관계 → 1:1 (일대일)**
+
+논리적 해석:
+
+→ 하나의 완료된 미션 수행 기록(user_missions)에 대해서는 단 하나의 리뷰만 작성할 수 있다.
+
+→ 하나의 리뷰는 특정 미션 수행 기록 하나에 대해서만 작성된다.
+
+물리적 설계:
+
+→ 미션을 완료하지 않으면 리뷰를 쓸 수 없도록 강제하는 역할을 한다.
+
+→ reviews 테이블이 user_missions의 PK인 id를 user_mission_id라는 FK로 가진다.
+
+→ 이때 user_mission_id 컬럼에 UNIQUE 제약 조건을 걸어주어야 1:1 관계가 완성된다. 
+
+    이렇게 하면 하나의 user_mission에 대해 두 개 이상의 리뷰가 생성되는 것을 원천적으로 차단할 수 있다.
+
+![image.png](attachment:8b114e34-8e73-46d3-a9e7-eb1833a44c50:image.png)
+
+https://www.erdcloud.com/d/TvdLkZEA7MbGNCfMp

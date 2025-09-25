@@ -66,11 +66,12 @@ ORDER BY m.id DESC
 LIMIT 10;
 ```
 
-- status TRUE(진행 중), user_id = 1, cursor_value: 5로 돌린 결과
 ![status TRUE(진행 중), user_id = 1, cursor_value: 5로 돌린 결과](image/1.png)
+status TRUE(진행 중), user_id = 1, cursor_value: 5로 돌린 결과
 
-- status FALSE(진행 완료), user_id = 1, cursor_value: 5로 돌린 결과
+
 ![status FALSE(진행 완료), user_id = 1, cursor_value: 5로 돌린 결과](image/2.png)
+status FALSE(진행 완료), user_id = 1, cursor_value: 5로 돌린 결과
 
 
 ### 리뷰 작성하는 쿼리(사진의 경우는 일단 배제)
@@ -80,8 +81,8 @@ INSERT INTO review (id, user_id, store_id, content, star, created_at)
 VALUES ({review_id}, {user_id}, {store_id}, '{content}', {star}, NOW());
 ```
 
-- id = 3, user_id = 1, store_id = 1, … 로 돌린 결과
 ![id = 3, user_id = 1, store_id = 1, … 로 돌린 결과](image/3.png)
+id = 3, user_id = 1, store_id = 1, … 로 돌린 결과
 
 
 ### 홈 화면 쿼리(현재 선택 된 지역에서 도전이 가능한 미션 목록, 페이징 포함)
@@ -101,16 +102,16 @@ FROM mission m
 JOIN store s ON m.store_id = s.id
 LEFT JOIN user_mission um 
        ON m.id = um.mission_id 
-      AND um.user_id = 1           -- 특정 사용자
-WHERE s.region_id = 1             -- 선택한 지역 (서울)
+      AND um.user_id = {user_id}           -- 특정 사용자
+WHERE s.region_id = {region_id}             -- 선택한 지역
   AND (um.status IS NULL OR um.status = TRUE)  -- 아직 도전 안했거나 진행중
-  AND m.id < 9999                 -- 첫 페이지 조회용 커서
+  AND m.id < {cursor_value}                 -- 첫 페이지 조회용 커서
 ORDER BY m.id DESC
 LIMIT 10;
 ```
 
-- user_id = 1, region_id = 1로 돌린 결과
 ![user_id = 1, region_id = 1로 돌린 결과](image/4.png)
+user_id = 1, region_id = 1로 돌린 결과
 
 
 ### 마이 페이지 화면 쿼리
@@ -126,6 +127,5 @@ FROM user
 WHERE id = {user_id};
 ```
 
-- user_id 2로 돌린 결과
 ![user_id 2로 돌린 결과](image/5.png)
-
+user_id 2로 돌린 결과

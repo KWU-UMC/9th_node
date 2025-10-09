@@ -8,7 +8,7 @@
 
 ## 홈화면
 
-![홈.png](attachment:93e47c50-9303-4950-a3f0-67da73339081:홈.png)
+<img width="375" height="812" alt="홈" src="https://github.com/user-attachments/assets/ea1c9a33-ec61-4b2b-ada3-62b201686252" />
 
 ### Method & EndPoint
 
@@ -60,7 +60,7 @@ Authorization: Bearer {access_token}
 
 ## 마이 페이지 리뷰 작성
 
-![X - 10.png](attachment:dd86057b-8044-4997-a047-d7597faf9e14:X_-_10.png)
+<img width="375" height="812" alt="X - 10" src="https://github.com/user-attachments/assets/9b50db00-8dcf-4033-b12e-7ac78ac76ea7" />
 
 ### Method & EndPoint
 
@@ -100,7 +100,7 @@ Authorization: Bearer {access_token}
 
 ## 미션 목록 조회
 
-![미션(홈).png](attachment:c3743b37-4301-4848-8cad-e7be9507d85a:미션(홈).png)
+<img width="360" height="800" alt="미션(홈)" src="https://github.com/user-attachments/assets/d13ce43b-36e3-4458-b6dd-07e5ce595de9" />
 
 ### Method & EndPoint
 
@@ -155,7 +155,7 @@ Authorization: Bearer {access_token}
 
 ## 미션 성공 누르기
 
-![미션(홈).png](attachment:032d5e06-abb4-4ccf-b6f1-1658c1e2a34c:미션(홈).png)
+<img width="360" height="800" alt="미션(홈)" src="https://github.com/user-attachments/assets/beeafc1e-2268-4b76-a0a6-5340b5fe73c0" />
 
 ### Method & EndPoint
 
@@ -188,7 +188,7 @@ Authorization: Bearer {access_token}
 
 ## 회원가입
 
-![회원가입1.png](attachment:d6586c93-067f-481b-bf7b-13a6b9b9f757:회원가입1.png)
+<img width="375" height="812" alt="회원가입1" src="https://github.com/user-attachments/assets/7ae0ecba-30d3-4146-8121-8cb0a483abe7" />
 
 ### Method & EndPoint
 
@@ -220,4 +220,5 @@ Authorization: Bearer {access_token}
 		"refresh_token": "string"
 	}
 }
+
 ```

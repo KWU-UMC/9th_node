@@ -201,8 +201,8 @@ Authorization: Bearer {access_token}
 	"id": "string",
 	"password": "string",
 	"name": "string",
-	"gender": 0   //0은 남자, 1은 여자
-	"birth": 'YYYY-MM-DD",
+	"gender": 0,   //0은 남자, 1은 여자
+	"birth": "YYYY-MM-DD",
 	"address1": "string",
 	"address2": "string"
 }
